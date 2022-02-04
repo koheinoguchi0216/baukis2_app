@@ -14,10 +14,10 @@ gem 'webpacker', '~> 5.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'bcrypt'
+gem 'date_validator'
 gem 'kaminari'
-gem 'rails-i18n'
-gem "date_validator"
 gem 'nokogiri'
+gem 'rails-i18n'
 gem 'valid_email2'
 
 gem 'rubocop', require: false

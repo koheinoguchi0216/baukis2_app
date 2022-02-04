@@ -16,60 +16,60 @@ RSpec.describe StaffMember, type: :model do
     end
   end
 
-  describe "値の正規化" do
-    example "email 前後の空白を除去" do
-      member = create(:staff_member, email: " test@example.com")
-      expect(member.email).to eq("test@example.com")
+  describe '値の正規化' do
+    example 'email 前後の空白を除去' do
+      member = create(:staff_member, email: ' test@example.com')
+      expect(member.email).to eq('test@example.com')
     end
 
-    example "emailに含まれている全角英数字記号を半角に変換" do
-      member = create(:staff_member, email: "ｔｅｓｔ＠ｅｘａｍｐｌｅ．ｃｏｍ")
-      expect(member.email).to eq("test@example.com")
+    example 'emailに含まれている全角英数字記号を半角に変換' do
+      member = create(:staff_member, email: 'ｔｅｓｔ＠ｅｘａｍｐｌｅ．ｃｏｍ')
+      expect(member.email).to eq('test@example.com')
     end
 
-    example "email前後のスペースを除去" do
+    example 'email前後のスペースを除去' do
       member = create(:staff_member, email: "\u{3000}test@example.com\u{3000}")
-      expect(member.email).to eq("test@example.com")
+      expect(member.email).to eq('test@example.com')
     end
 
-    example "family_name_kanaに含まれるひらがなをカタカナに変換" do
-      member = create(:staff_member, family_name_kana: "てすと")
-      expect(member.family_name_kana).to eq("テスト")
+    example 'family_name_kanaに含まれるひらがなをカタカナに変換' do
+      member = create(:staff_member, family_name_kana: 'てすと')
+      expect(member.family_name_kana).to eq('テスト')
     end
 
-    example "family_name_kanaに含まれる半角カナを全角カナに変換" do
-      member = create(:staff_member, family_name_kana: "ﾃｽﾄ")
-      expect(member.family_name_kana).to eq("テスト")
+    example 'family_name_kanaに含まれる半角カナを全角カナに変換' do
+      member = create(:staff_member, family_name_kana: 'ﾃｽﾄ')
+      expect(member.family_name_kana).to eq('テスト')
     end
   end
 
-  describe "バリデーション" do
-    example "@を2個含むemailは無効" do
-      member = build(:staff_member, email: "test@@example.com")
+  describe 'バリデーション' do
+    example '@を2個含むemailは無効' do
+      member = build(:staff_member, email: 'test@@example.com')
       expect(member).not_to be_valid
     end
 
-    example "アルファベットのfamily_nameは有効" do
-      member = build(:staff_member, family_name: "Smith")
+    example 'アルファベットのfamily_nameは有効' do
+      member = build(:staff_member, family_name: 'Smith')
       expect(member).to be_valid
     end
 
-    example "記号を含むfamily_nameは無効" do
-      member = build(:staff_member, family_name: "@")
+    example '記号を含むfamily_nameは無効' do
+      member = build(:staff_member, family_name: '@')
       expect(member).not_to be_valid
     end
 
-    example "漢字を含むfamily_name_kanaは無効" do
-      member = build(:staff_member, family_name_kana: "試験")
+    example '漢字を含むfamily_name_kanaは無効' do
+      member = build(:staff_member, family_name_kana: '試験')
       expect(member).not_to be_valid
     end
 
-    example "長音符を含むfamily_name_kanaは有効" do
-      member = build(:staff_member, family_name_kana: "エリー")
+    example '長音符を含むfamily_name_kanaは有効' do
+      member = build(:staff_member, family_name_kana: 'エリー')
       expect(member).to be_valid
     end
 
-    example "他の職員のメールアドレスと重複したemailは無効" do
+    example '他の職員のメールアドレスと重複したemailは無効' do
       member1 = create(:staff_member)
       member2 = build(:staff_member, email: member1.email)
       expect(member2).not_to be_valid
