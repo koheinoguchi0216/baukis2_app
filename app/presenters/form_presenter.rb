@@ -2,7 +2,6 @@ class FormPresenter
   include HtmlBuilder
 
   attr_reader :form_builder, :view_context
-
   delegate :label, :text_field, :date_field, :password_field,
            :check_box, :radio_button, :text_area, :object, to: :form_builder
 
@@ -60,7 +59,7 @@ class FormPresenter
     end
   end
 
-  private def decorated_label(name, label_text, options = {})
+  def decorated_label(name, label_text, options = {})
     label(name, label_text, class: options[:required] ? 'required' : nil)
   end
 end
