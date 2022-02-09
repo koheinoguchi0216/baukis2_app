@@ -106,4 +106,32 @@ feature '職員による顧客管理' do
     expect(page).to have_css(
                       "div.field_with_errors input#form_home_address_postal_code")
   end
+
+  scenario "職員が勤務先データのない既存顧客に会社名の情報を追加する" do
+    customer.work_address.destroy
+    click_link "顧客管理"
+    first("table.listing").click_link "編集"
+
+    check "勤務先を入力する"
+    within("fieldset#work-address-fields") do
+      fill_in "会社名", with: "テスト"
+    end
+    click_button "更新"
+
+    customer.reload
+    expect(customer.work_address.company_name).to eq("テスト")
+  end
+
+  scenario "職員が既存の顧客アカウントに勤務先電話番号を追加する" do
+    click_link "顧客管理"
+    first("table.listing").click_link "編集"
+
+    fill_in "form_work_address_phones_0_number", with: "03-9999-9999"
+    check "form_work_address_phones_0_primary"
+    click_button "更新"
+
+    customer.reload
+    expect(customer.work_address.phones.size).to eq(1)
+    expect(customer.work_address.phones[0].number).to eq("03-9999-9999")
+  end
 end
