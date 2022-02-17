@@ -7,7 +7,7 @@ staff_members = StaffMember.all
              if n.even?
                'logged_in'
              else
-               'looged_out'
+               'logged_out'
              end
            else
              'rejected'
